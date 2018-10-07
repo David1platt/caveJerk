@@ -29,6 +29,7 @@ public class Inventory
   private Items liHeal = new LightHealingPotion();
   private Items meHeal = new MediumHealingPotion();
   private Items crHeal = new CriticalHealingPotion();
+  private Items silenceScrl = new SilenceScroll();
   private Items sceptor = new Artifacts("sceptor of Argos the Redeemer", 15);
   
   private Random itemCheck = new Random();//when the object is created we have the ability to choose certain items at random and return them
@@ -46,6 +47,7 @@ public class Inventory
     allItems.add(liHeal);
     allItems.add(meHeal);
     allItems.add(crHeal);
+    allItems.add(silenceScrl);
     allItems.add(sceptor);
   }
 
@@ -54,11 +56,11 @@ public class Inventory
      */
     public Items randomItemCheck()
     {
-        int chance = itemCheck.nextInt(10);
+        int chance = itemCheck.nextInt(11);
         //String randItem;
         if(chance > 5)
         {
-            foundI = itemCheck.nextInt(9);
+            foundI = itemCheck.nextInt(10);
             //randItem = allItems.get(foundI).getItemType();
             //System.out.println("You have found one " + randItem);
             itemIndex = foundI;
@@ -95,10 +97,12 @@ public class Inventory
     			return new Sword();
     		case "light healing potion":
     			return new LightHealingPotion();
+    		case "silence scroll":
+    			return new SilenceScroll();
     		case "medium healing potion":
     			return new MediumHealingPotion();
     		case "critical healing potion":
-    			new CriticalHealingPotion();
+    			return new CriticalHealingPotion();
 			default:
 				System.out.println("item name did not match");
 				return null;

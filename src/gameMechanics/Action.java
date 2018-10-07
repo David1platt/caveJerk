@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import gameMechanics.items.Items;
+import gameMechanics.items.SilenceScroll;
+import gameMechanics.monsters.Monster;
 import gameMechanics.monsters.MonsterHorde;
 import gameMechanics.movement.CoordinateManager;
 import gameMechanics.movement.Map;
@@ -174,7 +176,7 @@ public class Action
             else if(doStuff.keyWord.equals("1") || doStuff.keyWord.equals("2") || doStuff.keyWord.equals("3"))
             {
             	try {
-            		useItem(doStuff.keyWord, playerOne);
+            		useItem(doStuff.keyWord, playerOne, enemies);
             	}
             	catch(Exception e) {
             		System.out.println("You do not have any items in your quick slots!");
@@ -186,7 +188,7 @@ public class Action
             }
             else if(doStuff.keyWord.length() > 2 && doStuff.keyWord.substring(0, 3).equals(Commands.USE.word)) 
             {                 
-                useItem(doStuff.keyWord, playerOne);
+                useItem(doStuff.keyWord, playerOne, enemies);
             }
             else if((doStuff.keyWord.equals(Commands.ATTACK.word)) || doStuff.keyWord.charAt(0) == 'a')
             {
@@ -400,7 +402,7 @@ public class Action
             System.out.println("currently equipped: " + stuff[i].getItemType());
         }
     }
-    public int useItem(String itemType, Player plyrOne) throws InterruptedException
+    public int useItem(String itemType, Player plyrOne, MonsterHorde monster) throws InterruptedException
     {
     	int result = 0;
     	if(itemType.equals("1") || itemType.equals("2") || itemType.equals("3"))
@@ -408,7 +410,7 @@ public class Action
     		int index = Integer.valueOf(itemType) - 1;
     		Items[] qItems = plyrOne.getQuickS(); 
     		Items tool = qItems[index];
-    		result = useItemType(tool, plyrOne);
+    		result = useItemType(tool, plyrOne, monster);
     		plyrOne.playerSetQuick("remove", index);
     		return result;
     	}
@@ -418,7 +420,7 @@ public class Action
     		Items it = plyrOne.getItem(itemType);
     		if(it != null)
     		{
-    			result = useItemType(it, plyrOne);
+    			result = useItemType(it, plyrOne, monster);
     			return 0;
     		}
     		return 1;
@@ -426,7 +428,7 @@ public class Action
     }
     
     
-    private int useItemType(Items item, Player plyr)
+    private int useItemType(Items item, Player plyr, MonsterHorde monster)
     {
 		if(item.getItemType().contains("heal"))
 		{
@@ -440,6 +442,7 @@ public class Action
 		}
 		else if(item.getItemType().contains("scroll"))
 		{
+			scrollType(item, monster);
 			return 0;
 		}
 		return 0;
@@ -453,6 +456,15 @@ public class Action
             	heal(fix, playerOne);    
             	//list.remove(i);
             }
+    }
+    
+    private MonsterHorde scrollType(Items scroll, MonsterHorde monster) {
+    	if(scroll.getItemType().contains("silence")) {
+    		((SilenceScroll)scroll).itemAbility(monster);
+    		return monster;
+    	}	
+    	else
+    		return monster;
     }
     
     private void heal(int heal, Player playerOne)

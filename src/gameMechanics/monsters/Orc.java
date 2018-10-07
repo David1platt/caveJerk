@@ -23,7 +23,7 @@ public class Orc extends Monster implements MonsterAction {
 	    	rand.setSeed(8);
 	    	check = rand.nextInt(100) + 1;
 	    	if(this.hp > 0){
-		    	if(check > 70)
+		    	if(check > 70 && abilitySave == true)
 		    	{
 		    		addMonsters = randomNumber.nextInt(3);
 		    		Monster[] creatureList = new Monster[addMonsters];
@@ -56,6 +56,10 @@ public class Orc extends Monster implements MonsterAction {
 		       			System.out.print("a " + creatureList[i].getType() + " ");
 		       		}
 		    		System.out.print("come forth from the darkness.\n");
+		    	}
+		    	else {
+		    		abilitySave = true;
+		    		System.out.println("The orc opens its mouth to shout but is strangely silent");
 		    	}
 	    	}
 	    	return gang;

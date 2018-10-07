@@ -247,7 +247,7 @@ public class Combat
         			return monster;
         		}
         		else if(currCommand.equals("1") || currCommand.equals("2") || currCommand.equals("3")){
-            		melee.useItem(currCommand, playerOne);
+            		melee.useItem(currCommand, playerOne, monster);
             	}
         		input = null;
         	}

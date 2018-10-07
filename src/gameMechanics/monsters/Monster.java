@@ -24,6 +24,7 @@ public class Monster implements MonsterAction{
     protected String type;
     protected Random randomNumber;
     protected int numberattcks;
+    protected boolean abilitySave;
     
    public Monster()
    {
@@ -35,6 +36,7 @@ public class Monster implements MonsterAction{
 	   type = null;
 	   randomNumber = new Random();
 	   numberattcks = 1;
+	   abilitySave = true;
 	   
    }
     
@@ -43,6 +45,7 @@ public class Monster implements MonsterAction{
 	   randomNumber = new Random();
        setMonster(type, hp, dmg, ac, combatScore);
        numberattcks = 1;
+       abilitySave = true;
    }
    
    protected void setMonster(String type, int hp, int dmg, int ac, int combatScore)
@@ -116,6 +119,14 @@ public class Monster implements MonsterAction{
     public void setNmattacks(int num)
     {
     	this.numberattcks = num;
+    }
+    
+    public void setAbilitySave(boolean abilitySave){
+    	this.abilitySave = abilitySave;
+    }
+    
+    public boolean getAbilitySave() {
+    	return this.abilitySave;
     }
     
     @Override

@@ -80,8 +80,9 @@ public class Action
         return keyWord;    
     }
     
-   public void commands(CoordinateManager currLoc, Driver game, int levelNum, Inventory stuff, Player playerOne, Map level, MonsterHorde enemies, String noGo)throws IOException, StringIndexOutOfBoundsException, IndexOutOfBoundsException, InterruptedException
+   public void commands(CoordinateManager currLoc, Driver game, int levelNum, Inventory stuff, Player playerOne, Map level, String noGo)throws IOException, StringIndexOutOfBoundsException, IndexOutOfBoundsException, InterruptedException
    {
+	   MonsterHorde enemies = null;
 	   Action doStuff = new Action();
 	   doStuff.keyWord = " "; 
 	   while(!doStuff.keyWord.equals("quit")) 
@@ -187,12 +188,18 @@ public class Action
                 checkEq(playerOne);
             }
             else if(doStuff.keyWord.length() > 2 && doStuff.keyWord.substring(0, 3).equals(Commands.USE.word)) 
-            {                 
-                useItem(doStuff.keyWord, playerOne, enemies);
+            {     
+            	try {
+            		enemies = level.getRoom(currLoc).getMonsters();
+            		useItem(doStuff.keyWord, playerOne, enemies);
+            	}
+                catch(Exception e) {
+                	useItem(doStuff.keyWord, playerOne, enemies);
+                }
             }
             else if((doStuff.keyWord.equals(Commands.ATTACK.word)) || doStuff.keyWord.charAt(0) == 'a')
             {
-            	enemies = level.getRoom(currLoc).getMonsters();
+            	
             	if(level.getRoom(currLoc).getMonsters() != null) {
             		enemies = level.getRoom(currLoc).getMonsters();
 	            	try{
@@ -351,7 +358,7 @@ public class Action
         pickedUp = currRoom.getThing();
         System.out.println("You have aquired " + pickedUp.getItemType());
         playerOne.putItemInventory(pickedUp);
-        if(pickedUp.getItemType().equals(Inventory.getItem(10).getItemType()))
+        if(pickedUp.getItemType().equals(Inventory.getItem(11).getItemType()))
         	playerOne.setArtifactFound(true);
         pickedUp = null;
         currRoom.setItem(pickedUp);
@@ -407,10 +414,11 @@ public class Action
     	int result = 0;
     	if(itemType.equals("1") || itemType.equals("2") || itemType.equals("3"))
     	{
+    		List<Monster> gang = monster.getHorde();
     		int index = Integer.valueOf(itemType) - 1;
     		Items[] qItems = plyrOne.getQuickS(); 
     		Items tool = qItems[index];
-    		result = useItemType(tool, plyrOne, monster);
+    		result = useItemType(tool, plyrOne, gang);
     		plyrOne.playerSetQuick("remove", index);
     		return result;
     	}
@@ -418,9 +426,12 @@ public class Action
     	{
     		itemType = itemType.substring(4);
     		Items it = plyrOne.getItem(itemType);
+    		List<Monster> gang = null;
+    		if(it.getItemType().contains("scroll"))
+    			gang = monster.getHorde();
     		if(it != null)
     		{
-    			result = useItemType(it, plyrOne, monster);
+    			result = useItemType(it, plyrOne, gang);
     			return 0;
     		}
     		return 1;
@@ -428,7 +439,7 @@ public class Action
     }
     
     
-    private int useItemType(Items item, Player plyr, MonsterHorde monster)
+    private int useItemType(Items item, Player plyr, List<Monster> monsters)
     {
 		if(item.getItemType().contains("heal"))
 		{
@@ -442,7 +453,9 @@ public class Action
 		}
 		else if(item.getItemType().contains("scroll"))
 		{
-			scrollType(item, monster);
+			//System.out.println(monsters.size());
+			scrollType(item, monsters);
+			
 			return 0;
 		}
 		return 0;
@@ -458,7 +471,7 @@ public class Action
             }
     }
     
-    private MonsterHorde scrollType(Items scroll, MonsterHorde monster) {
+    private List<Monster> scrollType(Items scroll, List<Monster> monster) {
     	if(scroll.getItemType().contains("silence")) {
     		((SilenceScroll)scroll).itemAbility(monster);
     		return monster;

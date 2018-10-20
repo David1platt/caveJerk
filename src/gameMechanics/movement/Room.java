@@ -119,7 +119,7 @@ public class Room
     		SecureRandom rand = new SecureRandom();
     		int num = rand.nextInt(10);
     		if(num > 8){
-    			this.gear = Inventory.getItem(10);
+    			this.gear = Inventory.getItem(11);
     			System.out.println("You have found " + this.gear.getItemType() + ", take it! Now you must get back to the"
     			+ " entrance of the dungeon alive to succeed in your quest! ");
     		}

@@ -58,7 +58,7 @@ public class Player
         equipped = new Items[2];
         quickSlots = new Items[3];
         equipment.add(Inventory.itemFactory("leather armor"));
-        equipment.add(Inventory.itemFactory("staff"));
+        equipment.add(Inventory.itemFactory("mace"));
         equipment.add(Inventory.itemFactory("light healing potion"));
         equipment.add(Inventory.itemFactory("light healing potion"));
         equipment.add(Inventory.itemFactory("medium healing potion"));

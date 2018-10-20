@@ -70,22 +70,22 @@ public class Driver
        	String noGo = "You can't go that way!";
         	try
         	{
-        		doStuff.commands(startLoc, game, levelNum, roomItem, playerOne, level, enemies, noGo);
+        		doStuff.commands(startLoc, game, levelNum, roomItem, playerOne, level, noGo);
         	}
         	catch(StringIndexOutOfBoundsException x)
         	{
         		System.out.println("Please provide a valid command.\nType help for info.");
-        		doStuff.commands(startLoc, game, levelNum, roomItem, playerOne, level, enemies, noGo);
+        		doStuff.commands(startLoc, game, levelNum, roomItem, playerOne, level, noGo);
         	}
         	catch(IOException e)
         	{
         		System.out.println("Please provide a valid command.\nType help for info.");
-        		doStuff.commands(startLoc, game, levelNum, roomItem, playerOne, level, enemies, noGo);
+        		doStuff.commands(startLoc, game, levelNum, roomItem, playerOne, level, noGo);
         	}
         	catch(IndexOutOfBoundsException y)
         	{
         		System.out.println("Exception thrown: " + y.getMessage());
-        		doStuff.commands(startLoc, game, levelNum, roomItem, playerOne, level, enemies, noGo);
+        		doStuff.commands(startLoc, game, levelNum, roomItem, playerOne, level, noGo);
         	}
             if(playerOne.getHp() <= 0)
             {

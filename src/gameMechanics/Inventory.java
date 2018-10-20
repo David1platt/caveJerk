@@ -56,13 +56,11 @@ public class Inventory
      */
     public Items randomItemCheck()
     {
-        int chance = itemCheck.nextInt(11);
+        int chance = itemCheck.nextInt(10);
         //String randItem;
-        if(chance > 5)
+        if(chance > 3)
         {
-            foundI = itemCheck.nextInt(10);
-            //randItem = allItems.get(foundI).getItemType();
-            //System.out.println("You have found one " + randItem);
+            foundI = itemCheck.nextInt(11);
             itemIndex = foundI;
             return allItems.get(foundI);
         }
